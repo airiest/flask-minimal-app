@@ -1,0 +1,36 @@
+version: "3.5"
+services:
+  app-server:
+    container_name: app-server
+    build:
+      context: ./
+      dockerfile: dockerfiles/app-server/Dockerfile
+    networks:
+      my_host_network:
+        aliases:
+          - uwsgi-server
+    expose:
+      - 9101
+    restart: always
+
+  web-server:
+    container_name: web-server
+    build:
+      context: ./
+      dockerfile: dockerfiles/web-server/Dockerfile
+    networks:
+      my_host_network:
+        aliases:
+          - nginx-server
+    ports:
+      - 9000:9100
+    depends_on:
+      - app-server
+    restart: always
+
+networks:
+  my_host_network:
+    name: my-network
+    driver: bridge
+    ipam:
+      driver: default
