@@ -1,5 +1,6 @@
 // Status 受信処理（websocket処理）
 $(function () {
+
     (function () {
         var ws = new WebSocket('ws://localhost:9000/ws/clock');
 
@@ -17,10 +18,9 @@ $(function () {
                 data: null,
                 contentType: 'application/json',
                 dataType: 'json',
-                success: function (data) {
-                    $('#get-ret').html(data.result);
-                }
-            });
+            }).done(function (data) {
+                $('#get-ret').html(data.result);
+            })
         }
     });
 
@@ -33,10 +33,10 @@ $(function () {
                 data: JSON.stringify(send_data),
                 contentType: 'application/json',
                 dataType: 'json',
-                success: function (data) {
-                    $('#post-ret').html(data.result);
-                }
-            });
+            }).done(function (data) {
+                $('#post-ret').html(data.result);
+            })
         }
     });
+
 });
